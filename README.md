@@ -15,12 +15,12 @@ It simplifies regular maintenance for users and administrators, ensuring improve
 
 ## 🗂️ Project Structure
 sys_maintenance_suite/
-│
-├── backup.sh # Interactive backup script
-├── update.sh # Automates system update and cleanup
-├── monitor.sh # Extracts and saves recent system logs
-├── menu.sh # Interactive menu to access all scripts
-└── README.md # Project documentation
+<br>│</br>
+<br>├── backup.sh # Interactive backup script</br>
+<br>├── update.sh # Automates system update and cleanup</br>
+<br>├── monitor.sh # Extracts and saves recent system logs</br>
+<br>├── menu.sh # Interactive menu to access all scripts</br>
+<br>└── README.md # Project documentation</br>
 
 
 
