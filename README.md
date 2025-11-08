@@ -13,6 +13,7 @@ An interactive menu interface to easily access all tasks
 
 It simplifies regular maintenance for users and administrators, ensuring improved efficiency, reliability, and security.
 
+## 🗂️ Project Structure
 sys_maintenance_suite/
 │
 ├── backup.sh # Interactive backup script
