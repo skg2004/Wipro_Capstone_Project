@@ -15,127 +15,54 @@ It simplifies regular maintenance for users and administrators, ensuring improve
 
 sys_maintenance_suite/
 │
-├── backup.sh      # Interactive backup script
-├── update.sh      # Automates system update and cleanup
-├── monitor.sh     # Extracts and saves recent system logs
-├── menu.sh        # Interactive menu to access all scripts
-└── README.md      # Project documentation
+├── backup.sh # Interactive backup script
+├── update.sh # Automates system update and cleanup
+├── monitor.sh # Extracts and saves recent system logs
+├── menu.sh # Interactive menu to access all scripts
+└── README.md # Project documentation
 
 
-⚙️ Features
 
-✅ Automated backups with timestamps
-✅ Interactive folder selection for backup
-✅ System updates and cleanup automation
-✅ Log monitoring (saves last 20 lines of syslog)
-✅ Integrated command-line menu for easy use
-✅ Error handling and logging functionality
+---
 
+## 🧩 Scripts Overview
 
-🧾 Scripts Explanation
-1️⃣ backup.sh
+### 1. **backup.sh**
+- Prompts the user to input a directory path.
+- Creates a compressed `.tar.gz` backup with timestamp.
+- Stores backups in `$HOME/Backup` directory.
+- Logs backup activity in `backup.log`.
 
-Creates compressed, timestamped backups of a user-specified directory.
+### 2. **update.sh**
+- Updates and upgrades system packages automatically.
+- Cleans unused packages and cache to free disk space.
+- Records update activity in `update.log`.
 
-#!/bin/bash
+### 3. **monitor.sh**
+- Monitors system logs (like `/var/log/syslog`).
+- Extracts and saves logs for the current date.
+- Alerts when specific keywords (like “error” or “failed”) are found.
 
-BACKUP_DIR="$HOME/Backup"
-DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-BKUP_FILE="backup_$DATE.tar.gz"
+### 4. **menu.sh**
+- Provides an interactive menu with options:
+  - Run Backup
+  - Perform System Update
+  - View Logs
+  - Exit
+- Executes respective scripts based on user choice.
 
-read -p "Enter full path of folder to back up: " SOURCE_DIR
+---
 
-mkdir -p "$BACKUP_DIR"
-tar -czf "$BACKUP_DIR/$BKUP_FILE" "$SOURCE_DIR" 2>/dev/null
+## ⚙️ How to Run
 
-if [ $? -eq 0 ]; then
-  echo "Backup completed: $BKUP_FILE"
-  echo "$(date): Backup of $SOURCE_DIR created successfully." >> "$BACKUP_DIR/backup.log"
-else
-  echo "Backup failed! Please check the folder path and try again." >&2
-fi
+1. **Make all scripts executable:**
+   ```bash
+   chmod +x *.sh
 
-2️⃣ update.sh
+🧾 Log Files
 
-Updates and cleans up system packages, logging each action.
+backup.log: Records all successful backups.
 
-#!/bin/bash
-sudo apt update && sudo apt upgrade -y
-sudo apt autoremove -y
-echo "$(date): System updated and cleaned." >> "$HOME/Backup/update.log"
-echo "System update and cleanup complete."
+update.log: Records all system update activities.
 
-3️⃣ monitor.sh
-
-Saves the last 20 lines from /var/log/syslog for monitoring.
-
-#!/bin/bash
-LOG_FILE="$HOME/Backup/system.log"
-tail -n 20 /var/log/syslog > "$LOG_FILE"
-echo "Last 20 log entries saved to $LOG_FILE"
-
-4️⃣ menu.sh
-
-Provides an interactive interface to run all maintenance tasks.
-
-#!/bin/bash
-while true; do
-  echo "===== System Maintenance Menu ====="
-  echo "1) Backup"
-  echo "2) Update System"
-  echo "3) Monitor Logs"
-  echo "4) Exit"
-  read -p "Select an option [1-4]: " choice
-
-  case $choice in
-    1) bash ./backup.sh ;;
-    2) bash ./update.sh ;;
-    3) bash ./monitor.sh ;;
-    4) echo "Exiting menu."; break ;;
-    *) echo "Invalid option. Please select between 1 and 4." ;;
-  esac
-done
-
-🚀 How to Run
-Step 1: Setup
-
-Create a folder and save all scripts:
-
-mkdir sys_maintenance_suite
-cd sys_maintenance_suite
-
-Step 2: Give Execution Permission
-chmod +x backup.sh update.sh monitor.sh menu.sh
-
-Step 3: Run the Suite
-./menu.sh
-
-Example Output
-===== System Maintenance Menu =====
-1) Backup
-2) Update System
-3) Monitor Logs
-4) Exit
-Select an option [1-4]: 1
-Enter full path of folder to back up: /home/wsl/Desktop
-Backup completed: backup_2025-11-08_21-30-45.tar.gz
-
-📁 Output Files
-
-~/Backup/backup_YYYY-MM-DD_HH-MM-SS.tar.gz → Compressed backup file
-
-~/Backup/backup.log → Logs all backup operations
-
-~/Backup/update.log → Logs system update actions
-
-~/Backup/system.log → Stores last 20 syslog entries
-
-🧩 Error Handling
-
-Validates source folder before backup
-
-Graceful handling for missing paths
-
-Logs all success and failure events
-
-Prevents overwriting of backups with timestamps
+monitor.log: Contains extracted or filtered system logs.
