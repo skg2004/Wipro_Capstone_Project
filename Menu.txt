@@ -1,0 +1,16 @@
+#!/bin/bash
+while true; do
+  echo "System Maintenance Menu"
+  echo "1) Backup"
+  echo "2) Update System"
+  echo "3) Monitor Logs"
+  echo "4) Exit"
+  read -p "Choose an option [1-4]: " choice
+  case $choice in
+    1) bash ./backup.sh ;;
+    2) bash ./update.sh ;;
+    3) bash ./monitor.sh ;;
+    4) echo "Exiting." ; break ;;
+    *) echo "Invalid option" ;;
+  esac
+done

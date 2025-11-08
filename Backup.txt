@@ -1,0 +1,17 @@
+#!/bin/bash
+
+BACKUP_DIR="$HOME/Backup"
+DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+BKUP_FILE="backup_$DATE.tar.gz"
+
+read -p "Enter full path of folder to back up: " SOURCE_DIR
+
+mkdir -p "$BACKUP_DIR"
+tar -czf "$BACKUP_DIR/$BKUP_FILE" "$SOURCE_DIR" 2>/dev/null
+
+if [ $? -eq 0 ]; then
+  echo "Backup completed: $BKUP_FILE"
+  echo "$(date): Backup of $SOURCE_DIR created successfully." >> "$BACKUP_DIR/backup.log"
+else
+  echo "Backup failed! Please check the folder path and try again." >&2
+fi

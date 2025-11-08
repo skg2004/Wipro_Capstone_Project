@@ -1,0 +1,6 @@
+#!/bin/bash
+
+LOG_FILE="$HOME/Backup/system.log"
+
+tail -n 20 /var/log/syslog > "$LOG_FILE"
+echo "Last 20 log entries saved to $LOG_FILE"
